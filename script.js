@@ -229,11 +229,11 @@ function getMoves(piece, ignoreCheck = false) {
 
     let moves = [];
     const directions = {
-        rook: [[1,0],[-1,0],[0,1],[0,-1]],
-        bishop: [[1,1],[1,-1],[-1,1],[-1,-1]],
-        queen: [[1,0],[-1,0],[0,1],[0,-1],[1,1],[1,-1],[-1,1],[-1,-1]],
-        king: [[1,0],[-1,0],[0,1],[0,-1],[1,1],[1,-1],[-1,1],[-1,-1]],
-        knight: [[2,1],[1,2],[-1,2],[-2,1],[-2,-1],[-1,-2],[1,-2],[2,-1]]
+        rook: [[1, 0], [-1, 0], [0, 1], [0, -1]],
+        bishop: [[1, 1], [1, -1], [-1, 1], [-1, -1]],
+        queen: [[1, 0], [-1, 0], [0, 1], [0, -1], [1, 1], [1, -1], [-1, 1], [-1, -1]],
+        king: [[1, 0], [-1, 0], [0, 1], [0, -1], [1, 1], [1, -1], [-1, 1], [-1, -1]],
+        knight: [[2, 1], [1, 2], [-1, 2], [-2, 1], [-2, -1], [-1, -2], [1, -2], [2, -1]]
     };
 
     if (type === 'pawn') {
@@ -246,12 +246,15 @@ function getMoves(piece, ignoreCheck = false) {
                 moves.push(document.getElementById(pos.col + (pos.row + dir * 2)));
             }
         }
-        [-1,1].forEach(dCol => {
-            const nextCol = String.fromCharCode(pos.col.charCodeAt(0) + dCol);
-            if (isValid(nextCol, forwardRow)) {
-                const target = getPieceAt(nextCol, forwardRow);
-                if (ignoreCheck || (target && target.dataset.color !== color)) {
-                    moves.push(document.getElementById(nextCol + forwardRow));
+        [-1, 1].forEach(dCol => {
+            const charCode = pos.col.charCodeAt(0) + dCol;
+            if (charCode >= 65 && charCode <= 72) {
+                const nextCol = String.fromCharCode(charCode);
+                if (isValid(nextCol, forwardRow)) {
+                    const target = getPieceAt(nextCol, forwardRow);
+                    if (ignoreCheck || (target && target.dataset.color !== color)) {
+                        moves.push(document.getElementById(nextCol + forwardRow));
+                    }
                 }
             }
         });
@@ -280,10 +283,25 @@ function getMoves(piece, ignoreCheck = false) {
                 }
             }
         });
+
+        if (type === 'king' && !ignoreCheck && !hasMoved[`${color}-king`] && !isCheck(color)) {
+            const r = pos.row;
+
+            const rookH = getPieceAt('H', r);
+            if (rookH && !hasMoved[`${color}-rook2`] && !getPieceAt('F', r) && !getPieceAt('G', r)) {
+                if (isMoveLegal(piece, document.getElementById('F' + r))) moves.push(document.getElementById('G' + r));
+            }
+
+            const rookA = getPieceAt('A', r);
+            if (rookA && !hasMoved[`${color}-rook1`] && !getPieceAt('B', r) && !getPieceAt('C', r) && !getPieceAt('D', r)) {
+                if (isMoveLegal(piece, document.getElementById('D' + r))) moves.push(document.getElementById('C' + r));
+            }
+        }
     }
 
     return ignoreCheck ? moves : moves.filter(m => isMoveLegal(piece, m));
 }
+
 
 function hasAnyLegalMoves(color) {
     const pieces = document.querySelectorAll(`.pieces[data-color="${color}"]`);
@@ -402,6 +420,7 @@ squares.forEach(square => {
         if (!gameStarted || isPaused) return;
         
         if (gameMode === 'bot' && currentTurn === botColor) return;
+        
         if (gameMode === 'pvp' && activePiece === null && square.querySelector('.pieces')?.dataset.color !== currentTurn) {
             if (!square.classList.contains('highlight')) return;
         }
@@ -410,12 +429,39 @@ squares.forEach(square => {
 
         if (activePiece && square.classList.contains('highlight')) {
             const targetPos = getPos(square);
-            const targetPiece = square.querySelector('.pieces');
-            
-            const pieceId = activePiece.dataset.color + '-' + activePiece.dataset.type;
-            if (hasMoved.hasOwnProperty(pieceId)) hasMoved[pieceId] = true;
+            const startSquare = activePiece.parentElement;
+            const startPos = getPos(startSquare);
+            const color = activePiece.dataset.color;
+            const type = activePiece.dataset.type;
 
-            if (targetPiece) targetPiece.remove();
+            if (type === 'king') {
+                const dist = targetPos.col.charCodeAt(0) - startPos.col.charCodeAt(0);
+                if (Math.abs(dist) === 2) {
+                    if (targetPos.col === 'G') {
+                        const rook = getPieceAt('H', targetPos.row);
+                        if (rook) document.getElementById('F' + targetPos.row).appendChild(rook);
+                    } else if (targetPos.col === 'C') {
+                        const rook = getPieceAt('A', targetPos.row);
+                        if (rook) document.getElementById('D' + targetPos.row).appendChild(rook);
+                    }
+                }
+                hasMoved[`${color}-king`] = true;
+            }
+
+            if (type === 'rook') {
+                const side = startPos.col === 'A' ? 'rook1' : 'rook2';
+                hasMoved[`${color}-${side}`] = true;
+            }
+
+            const targetPiece = square.querySelector('.pieces');
+            if (targetPiece) {
+                if (targetPiece.dataset.type === 'rook') {
+                    const targetSide = targetPos.col === 'A' ? 'rook1' : 'rook2';
+                    hasMoved[`${targetPiece.dataset.color}-${targetSide}`] = true;
+                }
+                targetPiece.remove();
+            }
+
             square.appendChild(activePiece);
 
             const finishMove = () => {
@@ -427,7 +473,7 @@ squares.forEach(square => {
                 if (gameMode === 'bot' && currentTurn === botColor) triggerBotMove();
             };
 
-            if (activePiece.dataset.type === 'pawn' && (targetPos.row === 1 || targetPos.row === 8)) {
+            if (type === 'pawn' && (targetPos.row === 1 || targetPos.row === 8)) {
                 handlePromotion(activePiece, finishMove);
             } else {
                 finishMove();
@@ -454,6 +500,7 @@ squares.forEach(square => {
         }
     });
 });
+
 
 
 updateCheckStatus();
