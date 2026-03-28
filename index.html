@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Chess</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="styles.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    </head>
+    <body>
+
+<div class="board" id="board">
+  <div id="An">
+    <div class="white board-square" id="A8">
+      <img class="pieces" src="black-rook.png" id="black-rook1" data-color="black" data-type="rook">
+      <span class="number">8</span>
+    </div>
+    <div class="black board-square" id="A7">
+      <img class="pieces" src="black-pawn.png" id="black-pawn1" data-color="black" data-type="pawn">
+      <span class="number">7</span>
+    </div>
+    <div class="white board-square" id="A6"><span class="number">6</span></div>
+    <div class="black board-square" id="A5"><span class="number">5</span></div>
+    <div class="white board-square" id="A4"><span class="number">4</span></div>
+    <div class="black board-square" id="A3"><span class="number">3</span></div>
+    <div class="white board-square" id="A2">
+      <img class="pieces" src="white-pawn.png" id="white-pawn1" data-color="white" data-type="pawn">
+      <span class="number">2</span>
+    </div>
+    <div class="black board-square" id="A1">
+      <img class="pieces" src="white-rook.png" id="white-rook1" data-color="white" data-type="rook">
+      <span class="letter">a</span>
+    </div>
+  </div>
+
+  <div id="Bn">
+    <div class="black board-square" id="B8">
+      <img class="pieces" src="black-knight.png" id="black-knight1" data-color="black" data-type="knight">
+    </div>
+    <div class="white board-square" id="B7">
+      <img class="pieces" src="black-pawn.png" id="black-pawn2" data-color="black" data-type="pawn">
+    </div>
+    <div class="black board-square" id="B6"></div>
+    <div class="white board-square" id="B5"></div>
+    <div class="black board-square" id="B4"></div>
+    <div class="white board-square" id="B3"></div>
+    <div class="black board-square" id="B2">
+      <img class="pieces" src="white-pawn.png" id="white-pawn2" data-color="white" data-type="pawn">
+    </div>
+    <div class="white board-square" id="B1">
+      <img class="pieces" src="white-knight.png" id="white-knight1" data-color="white" data-type="knight">
+      <span class="letter">b</span>
+    </div>
+  </div>
+
+  <div id="Cn">
+    <div class="white board-square" id="C8">
+      <img class="pieces" src="black-bishop.png" id="black-bishop1" data-color="black" data-type="bishop">
+    </div>
+    <div class="black board-square" id="C7">
+      <img class="pieces" src="black-pawn.png" id="black-pawn3" data-color="black" data-type="pawn">
+    </div>
+    <div class="white board-square" id="C6"></div>
+    <div class="black board-square" id="C5"></div>
+    <div class="white board-square" id="C4"></div>
+    <div class="black board-square" id="C3"></div>
+    <div class="white board-square" id="C2">
+      <img class="pieces" src="white-pawn.png" id="white-pawn3" data-color="white" data-type="pawn">
+    </div>
+    <div class="black board-square" id="C1">
+      <img class="pieces" src="white-bishop.png" id="white-bishop1" data-color="white" data-type="bishop">
+      <span class="letter">c</span>
+    </div>
+  </div>
+
+  <div id="Dn">
+    <div class="black board-square" id="D8">
+      <img class="pieces" src="black-crown.png" id="black-queen" data-color="black" data-type="queen">
+    </div>
+    <div class="white board-square" id="D7">
+      <img class="pieces" src="black-pawn.png" id="black-pawn4" data-color="black" data-type="pawn">
+    </div>
+    <div class="black board-square" id="D6"></div>
+    <div class="white board-square" id="D5"></div>
+    <div class="black board-square" id="D4"></div>
+    <div class="white board-square" id="D3"></div>
+    <div class="black board-square" id="D2">
+      <img class="pieces" src="white-pawn.png" id="white-pawn4" data-color="white" data-type="pawn">
+    </div>
+    <div class="white board-square" id="D1">
+      <img class="pieces" src="white-crown.png" id="white-queen" data-color="white" data-type="queen">
+      <span class="letter">d</span>
+    </div>
+  </div>
+
+  <div id="En">
+    <div class="white board-square" id="E8">
+      <img class="pieces" src="black-king.png" id="black-king" data-color="black" data-type="king">
+    </div>
+    <div class="black board-square" id="E7">
+      <img class="pieces" src="black-pawn.png" id="black-pawn5" data-color="black" data-type="pawn">
+    </div>
+    <div class="white board-square" id="E6"></div>
+    <div class="black board-square" id="E5"></div>
+    <div class="white board-square" id="E4"></div>
+    <div class="black board-square" id="E3"></div>
+    <div class="white board-square" id="E2">
+      <img class="pieces" src="white-pawn.png" id="white-pawn5" data-color="white" data-type="pawn">
+    </div>
+    <div class="black board-square" id="E1">
+      <img class="pieces" src="white-king.png" id="white-king" data-color="white" data-type="king">
+      <span class="letter">e</span>
+    </div>
+  </div>
+
+  <div id="Fn">
+    <div class="black board-square" id="F8">
+      <img class="pieces" src="black-bishop.png" id="black-bishop2" data-color="black" data-type="bishop">
+    </div>
+    <div class="white board-square" id="F7">
+      <img class="pieces" src="black-pawn.png" id="black-pawn6" data-color="black" data-type="pawn">
+    </div>
+    <div class="black board-square" id="F6"></div>
+    <div class="white board-square" id="F5"></div>
+    <div class="black board-square" id="F4"></div>
+    <div class="white board-square" id="F3"></div>
+    <div class="black board-square" id="F2">
+      <img class="pieces" src="white-pawn.png" id="white-pawn6" data-color="white" data-type="pawn">
+    </div>
+    <div class="white board-square" id="F1">
+      <img class="pieces" src="white-bishop.png" id="white-bishop2" data-color="white" data-type="bishop">
+      <span class="letter">f</span>
+    </div>
+  </div>
+
+  <div id="Gn">
+    <div class="white board-square" id="G8">
+      <img class="pieces" src="black-knight.png" id="black-knight2" data-color="black" data-type="knight">
+    </div>
+    <div class="black board-square" id="G7">
+      <img class="pieces" src="black-pawn.png" id="black-pawn7" data-color="black" data-type="pawn">
+    </div>
+    <div class="white board-square" id="G6"></div>
+    <div class="black board-square" id="G5"></div>
+    <div class="white board-square" id="G4"></div>
+    <div class="black board-square" id="G3"></div>
+    <div class="white board-square" id="G2">
+      <img class="pieces" src="white-pawn.png" id="white-pawn7" data-color="white" data-type="pawn">
+    </div>
+    <div class="black board-square" id="G1">
+      <img class="pieces" src="white-knight.png" id="white-knight2" data-color="white" data-type="knight">
+      <span class="letter">g</span>
+    </div>
+  </div>
+
+  <div id="Hn">
+    <div class="black board-square" id="H8">
+      <img class="pieces" src="black-rook.png" id="black-rook2" data-color="black" data-type="rook">
+    </div>
+    <div class="white board-square" id="H7">
+      <img class="pieces" src="black-pawn.png" id="black-pawn8" data-color="black" data-type="pawn">
+    </div>
+    <div class="black board-square" id="H6"></div>
+    <div class="white board-square" id="H5"></div>
+    <div class="black board-square" id="H4"></div>
+    <div class="white board-square" id="H3"></div>
+    <div class="black board-square" id="H2">
+      <img class="pieces" src="white-pawn.png" id="white-pawn8" data-color="white" data-type="pawn">
+    </div>
+    <div class="white board-square" id="H1">
+      <img class="pieces" src="white-rook.png" id="white-rook2" data-color="white" data-type="rook">
+      <span class="letter">h</span>
+    </div>
+  </div>
+</div>
+
+        <div class="settings" id="settings">
+
+            <div class="gamemode">
+              <h2>Choose game mode</h2>
+              <button class="gamemode-btn" id="bot-game">Bot</button>
+              <button class="gamemode-btn" id="pvp-game">PVP (in real life)</button>
+            </div>
+
+            <div class="difficulty" id="difficulty">
+              <h2>Choose Bot difficulty</h2>
+                <button class="dif-but" id="Easy">Easy</button>
+                <button class="dif-but" id="Medium">Medium</button>
+                <button class="dif-but" id="Hard">Hard</button>
+            </div>
+
+            <div class="time" id="time">
+              <h2>Choose time</h2>
+              <button class="time-btn" id="1m">1m</button>
+              <button class="time-btn" id="5m">5m</button>
+              <button class="time-btn" id="10m">10m</button>
+              <button class="time-btn" id="30m">30m</button>
+              <button class="time-btn" id="1h">1h</button>
+              <button class="time-btn" id="inf">Inf</button>
+            </div>
+
+            <div class="color" id="color">
+              <h2>Choose color</h2>
+              <button class="color-btn" id="white-btn">White</button>
+              <button class="color-btn" id="random-btn">Random</button>
+              <button class="color-btn" id="black-btn">Black</button>
+            </div>
+
+            <div class="start">
+                <button class="start-btn" id="start-btn">Start</button>
+            </div>
+
+        </div>
+
+        <div class="timer-container">
+          <p class="timer" id="timer-black">10:00</p>
+          <p class="timer" id="timer-white">10:00</p>
+        </div>
+
+        <div id="promotion-modal" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: gray; padding: 20px; border: 2px solid black; z-index: 1000;">
+          <p>Choose pieces:</p>
+          <div id="promotion-options"></div>
+        </div>
+
+    </body>
+<script src="./script.js"></script>
+</html>
